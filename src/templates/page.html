@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+
+        <!-- Boilerplate code -->
+        <meta charset="utf-8" />
+        {% if title %}
+            <title>todo-list-maker | {{ title }}</title>
+        {% else %}
+            <title>todo-list-maker</title>
+        {% endif %}
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    </head>
+
+    <body>
+
+        <div>
+            {% block content %}
+                <!-- ... -->
+            {% endblock %}
+        </div>
+
+    </body>
+
+</html>
