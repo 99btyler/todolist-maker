@@ -4,7 +4,6 @@
 
     <head>
 
-        <!-- Boilerplate code -->
         <meta charset="utf-8" />
         {% if title %}
             <title>todo-list-maker | {{ title }}</title>
@@ -17,7 +16,16 @@
 
     <body>
 
-        <!-- My stuff -->
+        <div id="navigator">
+            <a href="{{ url_for('home') }}">Home</a>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('register') }}">Register</a>
+            {% endif %}
+        </div>
+
         <div>
             {% block content %}{% endblock %}
         </div>
