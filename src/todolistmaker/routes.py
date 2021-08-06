@@ -37,7 +37,7 @@ def login():
 @app.route("/account")
 @login_required
 def account():
-    return render_template("pages/account.html", title="Account")
+    return render_template("pages/account.html", title="Account", picture=url_for("static", filename=f"pictures/{current_user.picture}"))
 
 @app.route("/logout")
 def logout():
