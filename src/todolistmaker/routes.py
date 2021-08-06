@@ -1,5 +1,5 @@
-from flask import redirect, render_template, url_for
-from flask_login import current_user, login_user, logout_user
+from flask import redirect, render_template, request, url_for
+from flask_login import current_user, login_required, login_user, logout_user
 
 from todolistmaker import app, bcrypt, database
 from todolistmaker.forms import FormLogin, FormRegister
@@ -30,8 +30,14 @@ def login():
         potential_user = ModelUser.query.filter_by(email=form_login.email.data).first()
         if potential_user and bcrypt.check_password_hash(potential_user.password, form_login.password.data):
             login_user(potential_user)
-            return redirect(url_for("home"))
+            potential_next_page = request.args.get("next")
+            return redirect(potential_next_page) if potential_next_page else redirect(url_for("home"))
     return render_template("pages/login.html", title="Login", form=form_login)
+
+@app.route("/account")
+@login_required
+def account():
+    return render_template("pages/account.html", title="Account")
 
 @app.route("/logout")
 def logout():
