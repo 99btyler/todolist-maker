@@ -7,14 +7,20 @@ body {
     
     margin: 20px;
 
+    background-color: #202020;
+
     font-family: sans-serif;
 
 }
 
 #navigator, #content {
+
     padding: 20px;
-    border: 1px solid #202020;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+
+    background-color: #ffffff;
+    color: #202020;
+
 }
 
 #navigator ul {
