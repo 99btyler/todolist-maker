@@ -1,8 +1,10 @@
+import os
+
 from flask import redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 
 from todolistmaker import app, bcrypt, database
-from todolistmaker.forms import FormLogin, FormRegister
+from todolistmaker.forms import FormEdit, FormLogin, FormRegister
 from todolistmaker.models import ModelTodoList, ModelUser
 
 
@@ -34,10 +36,21 @@ def login():
             return redirect(potential_next_page) if potential_next_page else redirect(url_for("home"))
     return render_template("pages/login.html", title="Login", form=form_login)
 
-@app.route("/account")
+@app.route("/account", methods=["GET", "POST"])
 @login_required
 def account():
-    return render_template("pages/account.html", title="Account", picture=url_for("static", filename=f"pictures/{current_user.picture}"))
+    form_edit = FormEdit()
+    if form_edit.validate_on_submit():
+        if form_edit.picture.data:
+            # ...
+            _, picture_extension = os.path.splitext(form_edit.picture.data.filename)
+            picture_name = f"{os.urandom(8).hex()}{picture_extension}"
+            form_edit.picture.data.save(os.path.join(app.root_path, "static/pictures", picture_name))
+            # ...
+            current_user.picture = picture_name
+            database.session.commit()
+        return redirect(url_for("account"))
+    return render_template("pages/account.html", title="Account", form=form_edit, picture=url_for("static", filename=f"pictures/{current_user.picture}"))
 
 @app.route("/logout")
 def logout():
