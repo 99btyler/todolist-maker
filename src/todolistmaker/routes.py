@@ -2,6 +2,7 @@ import os
 
 from flask import redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
+from PIL import Image
 
 from todolistmaker import app, bcrypt, database
 from todolistmaker.forms import FormEdit, FormLogin, FormRegister
@@ -45,7 +46,10 @@ def account():
             # ...
             _, picture_extension = os.path.splitext(form_edit.picture.data.filename)
             picture_name = f"{os.urandom(8).hex()}{picture_extension}"
-            form_edit.picture.data.save(os.path.join(app.root_path, "static/pictures", picture_name))
+            # ...
+            picture = Image.open(form_edit.picture.data)
+            picture.thumbnail((125, 125))
+            picture.save(os.path.join(app.root_path, "static/pictures", picture_name))
             # ...
             current_user.picture = picture_name
             database.session.commit()
