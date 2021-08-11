@@ -5,9 +5,12 @@
 Get this project set up locally
 ### Prerequisites
 * Flask (`pip3 install flask`)
-* Flask-WTF (`pip3 install flask-wtf`)
-* WTForms (`pip3 install wtforms[email]`)
+* Flask-Bcrypt (`pip3 install flask-bcrypt`)
+* Flask-Login (`pip3 install flask-login`)
 * Flask-SQLAlchemy (`pip3 install flask_sqlalchemy`)
+* Flask-WTF (`pip3 install flask-wtf`)
+* Pillow (`pip3 install pillow`)
+* WTForms (`pip3 install wtforms[email]`)
 ### Setting up
 * Clone this repository
 * Using a text editor, open (repository)/src
