@@ -15,19 +15,24 @@ def home():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    # ...
     if current_user.is_authenticated:
         return redirect(url_for("home"))
+    # ...
     form_register = FormRegister()
     if form_register.validate_on_submit():
         database.session.add(ModelUser(email=form_register.email.data, password=bcrypt.generate_password_hash(form_register.password.data).decode("utf-8")))
         database.session.commit()
         return redirect(url_for("login"))
-    return render_template("pages/register.html", title="Register", form=form_register)
+    else:
+        return render_template("pages/register.html", title="Register", form=form_register)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    # ...
     if current_user.is_authenticated:
         return redirect(url_for("home"))
+    # ...
     form_login = FormLogin()
     if form_login.validate_on_submit():
         potential_user = ModelUser.query.filter_by(email=form_login.email.data).first()
@@ -35,26 +40,29 @@ def login():
             login_user(potential_user)
             potential_next_page = request.args.get("next")
             return redirect(potential_next_page) if potential_next_page else redirect(url_for("home"))
-    return render_template("pages/login.html", title="Login", form=form_login)
+        else:
+            return render_template("pages/login.html", title="Login", form=form_login) 
+    else:
+        return render_template("pages/login.html", title="Login", form=form_login)
 
 @app.route("/account", methods=["GET", "POST"])
 @login_required
 def account():
+    # ...
     form_edit = FormEdit()
-    if form_edit.validate_on_submit():
-        if form_edit.picture.data:
-            # ...
-            _, picture_extension = os.path.splitext(form_edit.picture.data.filename)
-            picture_name = f"{os.urandom(8).hex()}{picture_extension}"
-            # ...
-            picture = Image.open(form_edit.picture.data)
-            picture.thumbnail((125, 125))
-            picture.save(os.path.join(app.root_path, "static/pictures", picture_name))
-            # ...
-            current_user.picture = picture_name
-            database.session.commit()
+    if form_edit.validate_on_submit() and form_edit.picture.data:
+        # save picture
+        _, picture_extension = os.path.splitext(form_edit.picture.data.filename)
+        picture_name = f"{os.urandom(8).hex()}{picture_extension}"
+        picture = Image.open(form_edit.picture.data)
+        picture.thumbnail((125, 125))
+        picture.save(os.path.join(app.root_path, "static/pictures", picture_name))
+        # update
+        current_user.picture = picture_name
+        database.session.commit()
         return redirect(url_for("account"))
-    return render_template("pages/account.html", title="Account", form=form_edit, picture=url_for("static", filename=f"pictures/{current_user.picture}"))
+    else:
+        return render_template("pages/account.html", title="Account", form=form_edit, picture=url_for("static", filename=f"pictures/{current_user.picture}"))
 
 @app.route("/logout")
 def logout():

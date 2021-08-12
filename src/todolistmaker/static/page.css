@@ -42,3 +42,20 @@ body {
 #navigator ul li a:hover {
     text-decoration: underline;
 }
+
+#content hr {
+    margin: 10px 0 20px 0;
+}
+
+#content form input[type="text"], #content form input[type="password"] {
+    display: block;
+    margin-bottom: 5px;
+}
+
+#content form input[type="submit"] {
+    margin-top: 10px;
+}
+
+#content form small {
+    color: red;
+}

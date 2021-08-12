@@ -10,6 +10,7 @@ class ModelUser(database.Model, UserMixin):
     picture = database.Column(database.String, nullable=False, default="picture_default.png")
     todo_list = database.relationship("ModelTodoList", backref="owner")
 
+
 class ModelTodoList(database.Model):
     id = database.Column(database.Integer, primary_key=True)
     # ...
