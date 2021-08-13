@@ -1,5 +1,17 @@
 {% extends "page.html" %}
 
 {% block content %}
-    <!-- ... -->
+
+    {% if current_user.is_authenticated %}
+
+        <h1>Hello, {{ current_user.email }}</h1>
+        <hr>
+        <p>You don't have a todo-list yet. Create one.</p>
+    
+    {% else %}
+
+        <p>success is not the result of doing an extraordinary thing once, but the result of doing many unextraordinary things over a long period of time</p>
+
+    {% endif %}
+
 {% endblock %}
