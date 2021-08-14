@@ -9,9 +9,17 @@ from todolistmaker.forms import FormEditAccount, FormLogin, FormRegister
 from todolistmaker.models import ModelTodoList, ModelUser
 
 
+# GET
 @app.route("/")
 def home():
-    return render_template("pages/home.html")
+    return render_template("pages/home.html", todolist=ModelTodoList.query.first())
+
+# POST
+@app.route("/add")
+def add():
+    database.session.add(ModelTodoList(owner=current_user))
+    database.session.commit()
+    return redirect(url_for("home"))
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
