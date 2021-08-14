@@ -5,7 +5,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 from PIL import Image
 
 from todolistmaker import app, bcrypt, database
-from todolistmaker.forms import FormEdit, FormLogin, FormRegister
+from todolistmaker.forms import FormEditAccount, FormLogin, FormRegister
 from todolistmaker.models import ModelTodoList, ModelUser
 
 
@@ -49,12 +49,12 @@ def login():
 @login_required
 def account():
     # ...
-    form_edit = FormEdit()
-    if form_edit.validate_on_submit() and form_edit.picture.data:
+    form_edit_account = FormEditAccount()
+    if form_edit_account.validate_on_submit() and form_edit_account.picture.data:
         # save picture
-        _, picture_extension = os.path.splitext(form_edit.picture.data.filename)
+        _, picture_extension = os.path.splitext(form_edit_account.picture.data.filename)
         picture_name = f"{os.urandom(8).hex()}{picture_extension}"
-        picture = Image.open(form_edit.picture.data)
+        picture = Image.open(form_edit_account.picture.data)
         picture.thumbnail((125, 125))
         picture.save(os.path.join(app.root_path, "static/pictures", picture_name))
         # update
@@ -62,7 +62,7 @@ def account():
         database.session.commit()
         return redirect(url_for("account"))
     else:
-        return render_template("pages/account.html", title="Account", form=form_edit, picture=url_for("static", filename=f"pictures/{current_user.picture}"))
+        return render_template("pages/account.html", title="Account", form=form_edit_account, picture=url_for("static", filename=f"pictures/{current_user.picture}"))
 
 @app.route("/logout")
 def logout():

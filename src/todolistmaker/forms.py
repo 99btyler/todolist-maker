@@ -23,6 +23,6 @@ class FormLogin(FlaskForm):
     submit = SubmitField("Submit")
 
 
-class FormEdit(FlaskForm):
+class FormEditAccount(FlaskForm):
     picture = FileField("", validators=[FileAllowed(["jpg", "png"])])
     submit = SubmitField("Submit")
