@@ -7,15 +7,7 @@
         <h1>Hello, {{ current_user.email }}</h1>
         <hr>
 
-        {% if todolist %}
-
-            <!-- ... -->
-
-        {% else %}
-
-            <p>You don't have a todo-list yet. <a href="{{ url_for('add') }}">Create one.</a></p>
-
-        {% endif %}
+        <!-- ... -->
     
     {% else %}
 
