@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import PasswordField, StringField, SubmitField
+from wtforms import FieldList, FormField, PasswordField, StringField, SubmitField
 from wtforms.validators import DataRequired, Email, ValidationError
 
 from todolistmaker.models import ModelUser
@@ -26,3 +26,10 @@ class FormLogin(FlaskForm):
 class FormEditAccount(FlaskForm):
     picture = FileField("", validators=[FileAllowed(["jpg", "png"])])
     submit = SubmitField("Submit")
+
+
+class FormTodolistGoal(FlaskForm):
+    goal = StringField()
+
+class FormEditTodolist(FlaskForm):
+    goals = FieldList(FormField(FormTodolistGoal), min_entries=1)

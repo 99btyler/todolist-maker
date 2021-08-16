@@ -5,13 +5,14 @@ from flask_login import current_user, login_required, login_user, logout_user
 from PIL import Image
 
 from todolistmaker import app, bcrypt, database
-from todolistmaker.forms import FormEditAccount, FormLogin, FormRegister
+from todolistmaker.forms import FormEditAccount, FormEditTodolist, FormLogin, FormRegister
 from todolistmaker.models import ModelUser
 
 
 @app.route("/")
 def home():
-    return render_template("pages/home.html")
+    form_edit_todolist = FormEditTodolist(goals=current_user.goals) if current_user.is_authenticated else "null"
+    return render_template("pages/home.html", form=form_edit_todolist)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():

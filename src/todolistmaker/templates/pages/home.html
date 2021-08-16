@@ -2,16 +2,28 @@
 
 {% block content %}
 
-    {% if current_user.is_authenticated %}
+    {% if form == "null" %}
+    
+        <p>success is not the result of doing an extraordinary thing once, but the result of doing many unextraordinary things over a long period of time</p>
 
+    {% else %}
+    
         <h1>Hello, {{ current_user.email }}</h1>
         <hr>
 
-        <!-- ... -->
-    
-    {% else %}
+        <form>
 
-        <p>success is not the result of doing an extraordinary thing once, but the result of doing many unextraordinary things over a long period of time</p>
+            {{ form.hidden_tag() }} <!-- protection against CSRF attacks -->
+
+            {% for form_todolist_goal in form.goals %}
+            
+                {{ form_todolist_goal.hidden_tag() }} <!-- protection against CSRF attacks -->
+
+                {{ form_todolist_goal.goal }}
+
+            {% endfor %}
+
+        </form>
 
     {% endif %}
 
