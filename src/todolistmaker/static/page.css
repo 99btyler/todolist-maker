@@ -47,15 +47,35 @@ body {
     margin: 10px 0 20px 0;
 }
 
-#content form input[type="text"], #content form input[type="password"] {
+#content #register, #content #login {
+
+    padding: 20px;
+
+    background-color: #ebebeb;
+
+}
+
+#content #register form label, #content #register form input, #content #login form label, #content #login form input {
+    font-size: 25px;
+}
+
+#content #register form input, #content #login form input {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
-#content form input[type="submit"] {
-    margin-top: 10px;
+#content #register form input[type="submit"], #content #login form input[type="submit"] {
+
+    padding: 5px;
+
+    font-size: 15px;
+
 }
 
-#content form small {
+#content #register form input[type="submit"]:hover, #content #login form input[type="submit"]:hover {
+    cursor: pointer;
+}
+
+#content #register form small, #content #login form small {
     color: red;
 }
