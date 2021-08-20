@@ -29,7 +29,7 @@ class FormEditAccount(FlaskForm):
 
 
 class FormTodolistGoal(FlaskForm):
-    goal = StringField()
+    goal = StringField(render_kw={"readonly": True})
 
 class FormEditTodolist(FlaskForm):
     goals = FieldList(FormField(FormTodolistGoal), min_entries=1)

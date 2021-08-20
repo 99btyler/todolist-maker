@@ -11,19 +11,23 @@
         <h1>Hello, {{ current_user.email }}</h1>
         <hr>
 
-        <form>
+        <div id="todolist">
 
-            {{ form.hidden_tag() }} <!-- protection against CSRF attacks -->
+            <form>
 
-            {% for form_todolist_goal in form.goals %}
-            
-                {{ form_todolist_goal.hidden_tag() }} <!-- protection against CSRF attacks -->
+                {{ form.hidden_tag() }} <!-- protection against CSRF attacks -->
 
-                {{ form_todolist_goal.goal }}
+                {% for form_todolist_goal in form.goals %}
+                
+                    {{ form_todolist_goal.hidden_tag() }} <!-- protection against CSRF attacks -->
 
-            {% endfor %}
+                    {{ form_todolist_goal.goal }}
 
-        </form>
+                {% endfor %}
+
+            </form>
+
+        </div>
 
     {% endif %}
 
