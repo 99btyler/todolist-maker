@@ -17,11 +17,11 @@
 
                 {{ form.hidden_tag() }} <!-- protection against CSRF attacks -->
 
-                {% for form_todolist_goal in form.goals %}
-                
-                    {{ form_todolist_goal.hidden_tag() }} <!-- protection against CSRF attacks -->
+                {% for form_todolist_task in form.tasks %}
 
-                    {{ form_todolist_goal.goal }}
+                    {{ form.hidden_tag() }} <!-- protection against CSRF attacks -->
+
+                    {{ form_todolist_task.task }}
 
                 {% endfor %}
 

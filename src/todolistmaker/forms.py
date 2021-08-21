@@ -28,8 +28,8 @@ class FormEditAccount(FlaskForm):
     submit = SubmitField("Submit")
 
 
-class FormTodolistGoal(FlaskForm):
-    goal = StringField(render_kw={"readonly": True})
+class FormTodolistTask(FlaskForm):
+    task = StringField(render_kw={"readonly": True})
 
 class FormEditTodolist(FlaskForm):
-    goals = FieldList(FormField(FormTodolistGoal), min_entries=1)
+    tasks = FieldList(FormField(FormTodolistTask), min_entries=1)

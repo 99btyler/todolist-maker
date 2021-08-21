@@ -9,9 +9,10 @@ from todolistmaker.forms import FormEditAccount, FormEditTodolist, FormLogin, Fo
 from todolistmaker.models import ModelUser
 
 
+# GET
 @app.route("/")
 def home():
-    form_edit_todolist = FormEditTodolist(goals=current_user.goals) if current_user.is_authenticated else "null"
+    form_edit_todolist = FormEditTodolist(tasks=current_user.tasks) if current_user.is_authenticated else "null"
     return render_template("pages/home.html", form=form_edit_todolist)
 
 @app.route("/register", methods=["GET", "POST"])

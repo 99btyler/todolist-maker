@@ -79,23 +79,3 @@ body {
 #content #register form small, #content #login form small {
     color: red;
 }
-
-#content #todolist {
-
-    padding: 50px;
-
-    background-color: #202020;
-
-}
-
-#content #todolist form input {
-
-    width: 100%;
-    outline: none;
-
-    font-size: 30px;
-    text-align: center;
-
-    cursor: pointer;
-
-}

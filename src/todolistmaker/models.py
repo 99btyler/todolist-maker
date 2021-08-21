@@ -8,7 +8,7 @@ class ModelUser(database.Model, UserMixin):
     email = database.Column(database.String, nullable=False, unique=True)
     password = database.Column(database.String, nullable=False)
     picture = database.Column(database.String, nullable=False, default="picture_default.png")
-    goals = [{"goal": "Test Task 1"}, {"goal": "Test Task 2"}]
+    tasks = [{"task": "Task1"}, {"task": "Task2"}]
 
 
 @login_manager.user_loader
