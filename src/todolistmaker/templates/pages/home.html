@@ -2,32 +2,32 @@
 
 {% block content %}
 
-    {% if form == "null" %}
-    
-        <p>success is not the result of doing an extraordinary thing once, but the result of doing many unextraordinary things over a long period of time</p>
+    {% if form and todolist_items %}
 
-    {% else %}
-    
         <h1>Hello, {{ current_user.email }}</h1>
         <hr>
 
         <div id="todolist">
 
-            <form>
+            <form method="POST" action="" autocomplete="off">
 
                 {{ form.hidden_tag() }} <!-- protection against CSRF attacks -->
 
-                {% for form_todolist_task in form.tasks %}
-
-                    {{ form.hidden_tag() }} <!-- protection against CSRF attacks -->
-
-                    {{ form_todolist_task.task }}
-
+                {% for todolist_item in todolist_items %}
+                    <p>{{ todolist_item.task }}</p>
                 {% endfor %}
+                
+                {{ form.new_task }}
+
+                {{ form.submit }}
 
             </form>
 
         </div>
+
+    {% else %}
+
+        <p>success is not the result of doing an extraordinary thing once, but the result of doing many unextraordinary things over a long period of time</p>
 
     {% endif %}
 

@@ -10,10 +10,15 @@ from todolistmaker.models import ModelUser
 
 
 # GET
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def home():
-    form_edit_todolist = FormEditTodolist(tasks=current_user.tasks) if current_user.is_authenticated else "null"
-    return render_template("pages/home.html", form=form_edit_todolist)
+    if current_user.is_authenticated:
+        form_edit_todolist = FormEditTodolist()
+        if form_edit_todolist.validate_on_submit():
+            pass
+        return render_template("pages/home.html", form=form_edit_todolist, todolist_items=current_user.todolist_items)
+    else:
+        return render_template("pages/home.html")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():

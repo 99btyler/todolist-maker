@@ -8,7 +8,16 @@ class ModelUser(database.Model, UserMixin):
     email = database.Column(database.String, nullable=False, unique=True)
     password = database.Column(database.String, nullable=False)
     picture = database.Column(database.String, nullable=False, default="picture_default.png")
-    tasks = [{"task": "Task1"}, {"task": "Task2"}]
+    todolist_items = [
+        {
+            "task": "Task1",
+            "completed": False
+        },
+        {
+            "task": "Task2",
+            "completed": False
+        }
+    ]
 
 
 @login_manager.user_loader
