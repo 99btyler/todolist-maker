@@ -1,4 +1,4 @@
-# todo-list-maker
+# todolist-maker
 ...
 
 # Getting Started
