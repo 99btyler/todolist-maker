@@ -15,7 +15,12 @@ def home():
     if current_user.is_authenticated:
         form_edit_todolist = FormEditTodolist()
         if form_edit_todolist.validate_on_submit():
-            pass
+            user = ModelUser.query.filter_by(email=current_user.email).first()
+            new_task = form_edit_todolist.new_task.data
+            if user and new_task:
+                user.todolist_items.append({"task": new_task, "completed": False})
+                database.session.commit()
+                return redirect(url_for("home"))
         return render_template("pages/home.html", form=form_edit_todolist, todolist_items=current_user.todolist_items)
     else:
         return render_template("pages/home.html")
