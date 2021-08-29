@@ -8,16 +8,13 @@ class ModelUser(database.Model, UserMixin):
     email = database.Column(database.String, nullable=False, unique=True)
     password = database.Column(database.String, nullable=False)
     picture = database.Column(database.String, nullable=False, default="picture_default.png")
-    todolist_items = [
-        {
-            "task": "Task1",
-            "completed": False
-        },
-        {
-            "task": "Task2",
-            "completed": False
-        }
-    ]
+    todolist_items = database.relationship("ModelTodolistItem", backref="user")
+
+
+class ModelTodolistItem(database.Model):
+    id = database.Column(database.Integer, primary_key=True)
+    task = database.Column(database.String(), nullable=False)
+    user_id = database.Column(database.Integer, database.ForeignKey("model_user.id"), nullable=False)
 
 
 @login_manager.user_loader

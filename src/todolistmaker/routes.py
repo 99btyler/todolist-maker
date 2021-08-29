@@ -6,19 +6,20 @@ from PIL import Image
 
 from todolistmaker import app, bcrypt, database
 from todolistmaker.forms import FormEditAccount, FormEditTodolist, FormLogin, FormRegister
-from todolistmaker.models import ModelUser
+from todolistmaker.models import ModelTodolistItem, ModelUser
 
 
 @app.route("/", methods=["GET", "POST"])
 def home():
     if current_user.is_authenticated:
+        user = ModelUser.query.filter_by(email=current_user.email).first()
         form_edit_todolist = FormEditTodolist()
         if form_edit_todolist.validate_on_submit():
-            user = ModelUser.query.filter_by(email=current_user.email).first()
-            user.todolist_items.append({"task": form_edit_todolist.new_task.data, "completed": False})
+            new_todolist_item = ModelTodolistItem(task=form_edit_todolist.new_task.data, user_id=user.id)
+            database.session.add(new_todolist_item)
             database.session.commit()
             return redirect(url_for("home"))
-        return render_template("pages/home.html", form=form_edit_todolist, todolist_items=current_user.todolist_items)
+        return render_template("pages/home.html", form=form_edit_todolist, todolist_items=ModelTodolistItem.query.filter_by(user_id=user.id))
     else:
         return render_template("pages/home.html")
 
@@ -28,8 +29,15 @@ def register():
         return redirect(url_for("home"))
     form_register = FormRegister()
     if form_register.validate_on_submit():
-        database.session.add(ModelUser(email=form_register.email.data, password=bcrypt.generate_password_hash(form_register.password.data).decode("utf-8")))
+        # ...
+        new_user = ModelUser(email=form_register.email.data, password=bcrypt.generate_password_hash(form_register.password.data).decode("utf-8"))
+        database.session.add(new_user)
         database.session.commit()
+        # ...
+        new_todolist_item = ModelTodolistItem(task="Task 1", user_id=new_user.id)
+        database.session.add(new_todolist_item)
+        database.session.commit()
+        # ...
         return redirect(url_for("login"))
     else:
         return render_template("pages/register.html", title="Register", form=form_register)
@@ -55,11 +63,11 @@ def account():
         # ...
         _, picture_extension = os.path.splitext(form_edit_account.picture.data.filename)
         picture_name = f"{os.urandom(8).hex()}{picture_extension}"
-        # save picture
+        # ...
         picture = Image.open(form_edit_account.picture.data)
         picture.thumbnail((125, 125))
         picture.save(os.path.join(app.root_path, "static/pictures", picture_name))
-        # update
+        # ...
         current_user.picture = picture_name
         database.session.commit()
         return redirect(url_for("account"))
