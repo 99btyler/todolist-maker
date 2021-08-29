@@ -9,28 +9,23 @@ from todolistmaker.forms import FormEditAccount, FormEditTodolist, FormLogin, Fo
 from todolistmaker.models import ModelUser
 
 
-# GET
 @app.route("/", methods=["GET", "POST"])
 def home():
     if current_user.is_authenticated:
         form_edit_todolist = FormEditTodolist()
         if form_edit_todolist.validate_on_submit():
             user = ModelUser.query.filter_by(email=current_user.email).first()
-            new_task = form_edit_todolist.new_task.data
-            if user and new_task:
-                user.todolist_items.append({"task": new_task, "completed": False})
-                database.session.commit()
-                return redirect(url_for("home"))
+            user.todolist_items.append({"task": form_edit_todolist.new_task.data, "completed": False})
+            database.session.commit()
+            return redirect(url_for("home"))
         return render_template("pages/home.html", form=form_edit_todolist, todolist_items=current_user.todolist_items)
     else:
         return render_template("pages/home.html")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
-    # ...
     if current_user.is_authenticated:
         return redirect(url_for("home"))
-    # ...
     form_register = FormRegister()
     if form_register.validate_on_submit():
         database.session.add(ModelUser(email=form_register.email.data, password=bcrypt.generate_password_hash(form_register.password.data).decode("utf-8")))
@@ -41,31 +36,26 @@ def register():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    # ...
     if current_user.is_authenticated:
         return redirect(url_for("home"))
-    # ...
     form_login = FormLogin()
     if form_login.validate_on_submit():
         potential_user = ModelUser.query.filter_by(email=form_login.email.data).first()
         if potential_user and bcrypt.check_password_hash(potential_user.password, form_login.password.data):
             login_user(potential_user)
-            potential_next_page = request.args.get("next")
-            return redirect(potential_next_page) if potential_next_page else redirect(url_for("home"))
-        else:
-            return render_template("pages/login.html", title="Login", form=form_login) 
-    else:
-        return render_template("pages/login.html", title="Login", form=form_login)
+            next_page = request.args.get("next")
+            return redirect(next_page) if next_page else redirect(url_for("home"))
+    return render_template("pages/login.html", title="Login", form=form_login)
 
 @app.route("/account", methods=["GET", "POST"])
 @login_required
 def account():
-    # ...
     form_edit_account = FormEditAccount()
     if form_edit_account.validate_on_submit() and form_edit_account.picture.data:
-        # save picture
+        # ...
         _, picture_extension = os.path.splitext(form_edit_account.picture.data.filename)
         picture_name = f"{os.urandom(8).hex()}{picture_extension}"
+        # save picture
         picture = Image.open(form_edit_account.picture.data)
         picture.thumbnail((125, 125))
         picture.save(os.path.join(app.root_path, "static/pictures", picture_name))
