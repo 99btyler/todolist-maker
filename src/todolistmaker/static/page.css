@@ -79,3 +79,56 @@ body {
 #content #register form small, #content #login form small {
     color: red;
 }
+
+#content #todolist {
+
+    padding: 20px;
+    
+    background-color: #ebebeb;
+
+}
+
+#content #todolist p {
+
+    padding: 20px;
+    border-bottom: 1px solid #202020;
+
+    background-color: #303030;
+    color: #ffffff;
+
+    font-size: 20px;
+
+}
+
+#content #todolist p:hover {
+
+    background-color: #202020;
+
+    cursor: pointer;
+
+}
+
+#content #todolist form input {
+    
+    border: none;
+    outline: none;
+
+    margin-top: 10px;
+
+    background-color: #ffffff;
+
+    font-size: 20px;
+
+}
+
+#content #todolist form input[type="text"] {
+    padding: 10px 10px 10px 20px;
+}
+
+#content #todolist form input[type="submit"] {
+    padding: 0 5px;
+}
+
+#content #todolist form input[type="submit"]:hover {
+    cursor: pointer;
+}
