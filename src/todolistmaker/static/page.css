@@ -88,8 +88,9 @@ body {
 
 }
 
-#content #todolist p {
+#content #todolist a {
 
+    display: block;
     padding: 20px;
     border-bottom: 1px solid #202020;
 
@@ -97,6 +98,7 @@ body {
     color: #ffffff;
 
     font-size: 20px;
+    text-decoration: none;
 
 }
 

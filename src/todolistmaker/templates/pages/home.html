@@ -14,7 +14,7 @@
                 {{ form.hidden_tag() }} <!-- protection against CSRF attacks -->
 
                 {% for todolist_item in todolist_items %}
-                    <p>{{ todolist_item.task }}</p>
+                    <a href="{{ url_for('home') }}">{{ todolist_item.task }} </a>
                 {% endfor %}
                 
                 {{ form.new_task }}
