@@ -28,6 +28,6 @@ class FormEditAccount(FlaskForm):
     submit = SubmitField("Submit")
 
 
-class FormEditTodolist(FlaskForm):
+class FormTodolistAdd(FlaskForm):
     new_task = StringField()
     submit = SubmitField("+")

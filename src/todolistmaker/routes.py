@@ -5,7 +5,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 from PIL import Image
 
 from todolistmaker import app, bcrypt, database
-from todolistmaker.forms import FormEditAccount, FormEditTodolist, FormLogin, FormRegister
+from todolistmaker.forms import FormEditAccount, FormTodolistAdd, FormLogin, FormRegister
 from todolistmaker.models import ModelTodolistItem, ModelUser
 
 
@@ -13,13 +13,13 @@ from todolistmaker.models import ModelTodolistItem, ModelUser
 def home():
     if current_user.is_authenticated:
         user = ModelUser.query.filter_by(email=current_user.email).first()
-        form_edit_todolist = FormEditTodolist()
-        if form_edit_todolist.validate_on_submit():
-            new_todolist_item = ModelTodolistItem(task=form_edit_todolist.new_task.data, user_id=user.id)
+        form_todolist_add = FormTodolistAdd()
+        if form_todolist_add.validate_on_submit():
+            new_todolist_item = ModelTodolistItem(task=form_todolist_add.new_task.data, user_id=user.id)
             database.session.add(new_todolist_item)
             database.session.commit()
             return redirect(url_for("home"))
-        return render_template("pages/home.html", form=form_edit_todolist, todolist_items=ModelTodolistItem.query.filter_by(user_id=user.id))
+        return render_template("pages/home.html", form=form_todolist_add, todolist_items=ModelTodolistItem.query.filter_by(user_id=user.id))
     else:
         return render_template("pages/home.html")
 
