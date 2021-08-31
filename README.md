@@ -1,5 +1,5 @@
 # todolist-maker
-...
+![todolist-maker gif](https://i.imgur.com/GiVX76X.gif)
 
 # Getting Started
 Get this project set up locally
