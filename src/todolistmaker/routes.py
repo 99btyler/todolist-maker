@@ -23,6 +23,14 @@ def home():
     else:
         return render_template("pages/home.html")
 
+@app.route("/delete/<int:id>", methods=["GET", "POST"])
+@login_required
+def delete(id):
+    todolist_item = ModelTodolistItem.query.get_or_404(id)
+    database.session.delete(todolist_item)
+    database.session.commit()
+    return redirect(url_for("home"))
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if current_user.is_authenticated:

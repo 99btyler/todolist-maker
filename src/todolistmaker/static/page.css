@@ -102,12 +102,8 @@ body {
 
 }
 
-#content #todolist p:hover {
-
-    background-color: #202020;
-
-    cursor: pointer;
-
+#content #todolist a:hover {
+    background-color: #802020;
 }
 
 #content #todolist form input {

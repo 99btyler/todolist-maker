@@ -29,5 +29,9 @@ class FormEditAccount(FlaskForm):
 
 
 class FormTodolistAdd(FlaskForm):
-    new_task = StringField()
+    new_task = StringField(render_kw={'autofocus': True})
     submit = SubmitField("+")
+
+
+class FormTodolistDelete(FlaskForm):
+    submit = SubmitField("Delete")
